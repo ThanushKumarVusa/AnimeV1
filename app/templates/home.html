@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anime World</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav class="navbar">
+<div class="nav-logo">ANIME WORLD</div>
+<div><span>Welcome, {{ username }}</span>
+<a href="{{ url_for('logout') }}" class="logout">Logout</a></div>
+</nav>
+<main class="home-container">
+<section class="hero">
+<h1>Welcome to Anime World</h1>
+<p>Discover some of the most popular anime series.</p>
+</section>
+<h2>Popular Anime</h2>
+<div class="anime-grid">
+{% for anime in anime_list %}
+<div class="anime-card">
+<div class="anime-image">{{ anime.title[0] }}</div>
+<div class="anime-content">
+<h3>{{ anime.title }}</h3>
+<span class="genre">{{ anime.genre }}</span>
+<p>{{ anime.description }}</p>
+</div>
+</div>
+{% endfor %}
+</div>
+</main>
+</body>
+</html>
