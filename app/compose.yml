@@ -1,0 +1,35 @@
+services:
+
+  application:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: devopsdb
+      DB_PORT: 3306
+      DB_NAME: anime_world
+      DB_USER: anime_user
+      DB_PASSWORD: ${DB_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
+    depends_on:
+      devopsdb:
+        condition: service_healthy
+
+  devopsdb:
+    build:
+      context: ./db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: anime_world
+      MYSQL_USER: anime_user
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data:
